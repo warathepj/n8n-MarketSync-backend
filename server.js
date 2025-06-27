@@ -16,6 +16,7 @@ console.log('Current UTC Date:', new Date().toISOString()); // Log current UTC d
 // Function to fetch today's data
 async function getTodayBookings() {
   const dbPath = './db.json';
+  const webhookUrl = 'http://localhost:5678/webhook-test/3a0b65c7-08e6-411c-8d73-7335fad620b2'; // Define webhookUrl here
   try {
     let dbData = [];
     if (fs.existsSync(dbPath)) {
@@ -34,15 +35,28 @@ async function getTodayBookings() {
     });
 
     console.log('Bookings for today (scheduled fetch):', todayData);
+
+    // Send today's bookings to the webhook with a source indicator
+    if (todayData.length > 0) {
+      const payload = {
+        source: 'cron_job',
+        bookings: todayData
+      };
+      const webhookResponse = await axios.post(webhookUrl, payload);
+      console.log('Webhook response for scheduled bookings:', webhookResponse.data);
+    } else {
+      console.log('No bookings for today to send to webhook.');
+    }
+
     return todayData;
   } catch (error) {
-    console.error('Error fetching today\'s bookings:', error.message);
+    console.error('Error fetching or sending today\'s bookings:', error.message);
     return [];
   }
 }
 
 // Schedule the task to run every day at 10:40 AM
-cron.schedule('56 13 * * *', () => {
+cron.schedule('40 15 * * *', () => {
   console.log('Running scheduled task to fetch today\'s bookings...');
   getTodayBookings();
 }, {
@@ -94,4 +108,4 @@ app.listen(port, () => {
   console.log(`Backend server listening at http://localhost:${port}`);
 });
 
-// TODO create event reminder
+// TODO add 1 day from server code
