@@ -10,6 +10,9 @@ const port = 3001; // Or any other port you prefer for the backend
 app.use(cors());
 app.use(bodyParser.json());
 
+console.log('Current UTC Date:', new Date().toISOString()); // Log current UTC date
+
+
 app.post('/submit-booking', async (req, res) => { // Made the function async
   const { boothId, name, contact, eventDetails } = req.body;
   console.log('Booking submitted for booth:', boothId);
