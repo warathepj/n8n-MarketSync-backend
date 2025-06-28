@@ -142,5 +142,61 @@
       "location": "ลานจอดรถจตุจักร"
     },
     "timestamp": "2025-06-27T04:25:36.289Z"
+  },
+  {
+    "boothId": 17,
+    "name": "palmy",
+    "contact": "7798223018",
+    "boothType": "เครื่องประดับ",
+    "eventDetails": {
+      "startDate": "2025-06-28T17:00:00.000Z",
+      "endDate": "2025-07-02T17:00:00.000Z",
+      "startTime": "08:00",
+      "endTime": "20:00",
+      "location": "huahin"
+    },
+    "timestamp": "2025-06-28T05:06:51.588Z"
+  },
+  {
+    "boothId": 29,
+    "name": "orn",
+    "contact": "66",
+    "boothType": "หนังสือ",
+    "eventDetails": {
+      "startDate": "2025-06-28T17:00:00.000Z",
+      "endDate": "2025-06-29T17:00:00.000Z",
+      "startTime": "08:00",
+      "endTime": "20:00",
+      "location": "chiangmai"
+    },
+    "timestamp": "2025-06-28T07:19:42.508Z"
+  },
+  {
+    "boothId": 21,
+    "name": "แนน",
+    "contact": "7798223018",
+    "boothType": "ของใช้",
+    "eventDetails": {
+      "startDate": "2025-06-28T17:00:00.000Z",
+      "endDate": "2025-07-02T17:00:00.000Z",
+      "startTime": "11:00",
+      "endTime": "23:00",
+      "location": "บางแสน"
+    },
+    "timestamp": "2025-06-28T12:31:22.588Z"
+  },
+  {
+    "boothId": 17,
+    "name": "ป๊อป",
+    "contact": "7798223018",
+    "boothType": "อาหาร",
+    "eventDetails": {
+      "startDate": "2025-06-28T17:00:00.000Z",
+      "endDate": "2025-07-02T17:00:00.000Z",
+      "startTime": "11:00",
+      "endTime": "23:00",
+      "location": "บางแสน"
+    },
+    "timestamp": "2025-06-28T12:37:15.791Z"
   }
 ]

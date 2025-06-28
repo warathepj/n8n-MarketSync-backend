@@ -38,9 +38,25 @@ async function getTodayBookings() {
 
     // Send today's bookings to the webhook with a source indicator
     if (todayData.length > 0) {
+      // Create a deep copy of todayData to modify dates without affecting the original
+      const modifiedTodayData = todayData.map(booking => {
+        const newBooking = { ...booking }; // Shallow copy
+        if (newBooking.eventDetails && newBooking.eventDetails.startDate) {
+          const startDate = new Date(newBooking.eventDetails.startDate);
+          startDate.setDate(startDate.getDate() + 1);
+          newBooking.eventDetails.startDate = startDate.toISOString();
+        }
+        if (newBooking.eventDetails && newBooking.eventDetails.endDate) {
+          const endDate = new Date(newBooking.eventDetails.endDate);
+          endDate.setDate(endDate.getDate() + 1);
+          newBooking.eventDetails.endDate = endDate.toISOString();
+        }
+        return newBooking;
+      });
+
       const payload = {
         source: 'cron_job',
-        bookings: todayData
+        bookings: modifiedTodayData // Use the modified data
       };
       const webhookResponse = await axios.post(webhookUrl, payload);
       console.log('Webhook response for scheduled bookings:', webhookResponse.data);
@@ -56,7 +72,7 @@ async function getTodayBookings() {
 }
 
 // Schedule the task to run every day at 10:40 AM
-cron.schedule('40 15 * * *', () => {
+cron.schedule('23 14 * * *', () => {
   console.log('Running scheduled task to fetch today\'s bookings...');
   getTodayBookings();
 }, {
@@ -108,4 +124,5 @@ app.listen(port, () => {
   console.log(`Backend server listening at http://localhost:${port}`);
 });
 
-// TODO add 1 day from server code
+// TODO add 1 day from server code (test), telegram node 
+// expression not dynamic
