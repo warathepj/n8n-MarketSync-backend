@@ -198,5 +198,19 @@
       "location": "บางแสน"
     },
     "timestamp": "2025-06-28T12:37:15.791Z"
+  },
+  {
+    "boothId": 29,
+    "name": "jeff",
+    "contact": "7798223018",
+    "boothType": "อาหาร",
+    "eventDetails": {
+      "startDate": "2025-06-29T17:00:00.000Z",
+      "endDate": "2025-07-04T17:00:00.000Z",
+      "startTime": "08:00",
+      "endTime": "20:00",
+      "location": "rayong"
+    },
+    "timestamp": "2025-06-29T04:19:23.018Z"
   }
 ]

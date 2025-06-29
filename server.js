@@ -79,8 +79,6 @@ cron.schedule('23 14 * * *', () => {
   timezone: "Asia/Bangkok" // Set timezone to Asia/Bangkok
 });
 
-// Initial fetch when the server starts
-getTodayBookings();
 
 
 app.post('/submit-booking', async (req, res) => { // Made the function async
@@ -125,4 +123,5 @@ app.listen(port, () => {
 });
 
 // TODO add 1 day from server code (test), telegram node 
-// expression not dynamic
+// expression not dynamic, test after remove send today's 
+// bookings when server starts.
