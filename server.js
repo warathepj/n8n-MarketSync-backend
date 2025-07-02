@@ -71,8 +71,8 @@ async function getTodayBookings() {
   }
 }
 
-// Schedule the task to run every day at 10:40 AM
-cron.schedule('05 16 * * *', () => {
+// Schedule the task to run every day at 4:00 PM
+cron.schedule('00 16 * * *', () => {
   console.log('Running scheduled task to fetch today\'s bookings...');
   getTodayBookings();
 }, {

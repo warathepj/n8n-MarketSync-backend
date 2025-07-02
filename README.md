@@ -1,5 +1,22 @@
 # ซอร์สโค้ดนี้ ใช้สำหรับเป็นตัวอย่างเท่านั้น ถ้านำไปใช้งานจริง ผู้ใช้ต้องจัดการเรื่องความปลอดภัย และ ประสิทธิภาพด้วยตัวเอง
 
+# การใช้งาน Demo
+- ไปที่ web app, คลิก ดูแผนผังบูธ (บนขวา) 
+- demo เป็น admin, กรอกข้อมูลการจัดตลาดนัด
+- ข้อมูลการจัดงาน จะแสดงที่ด้านล่าง
+- demo เป็นผู้เช่า, ไปที่ แผนผังบูธ
+- เลือกบูธที่ว่าง (สีเขียว) คลิก จองบูธนี้
+- กรอกข้อมูล คลิก ยืนยันการจอง
+- เมื่อ popup QR Code ขึ้นมา ให้คลิก ปิด
+- ข้อมูลจะถูกส่งไปยัง server
+- ข้อมูลจะถูกส่งต่อไปยัง n8n
+- n8n จะส่ง ข้อความยืนยัน การรับเงิน ไปยัง Telegram ตาม Chat ID ที่กรอกไว้ในข้อมูลการจอง
+- ในทุกวัน เมื่อถึงเวลาที่ตั้งค่าไว้ server จะดึงข้อมูล จากฐานข้อมูล เฉพาะข้อมูล ที่ต้องการแจ้งเตือน ผู้เช่า ว่าใกล้ถึงเวลาจัดงานแล้ว
+- ข้อมูลจะถูกส่งต่อไปยัง n8n
+- n8n จะส่ง ข้อความแจ้งเตือน ไปยังผู้เช่า ทาง Telegram
+
+---
+
 # MarketSync Project
 
 This project consists of a backend server (Node.js/Express) and a frontend application (React/Vite) designed for booth booking and management. It integrates with an n8n webhook for data forwarding and scheduled tasks.
@@ -43,9 +60,12 @@ Ensure you have Node.js installed on your system. You can use npm, yarn, or bun 
 TODO 30
 ### Backend Setup
 
+```bash
+https://github.com/warathepj/n8n-MarketSync-backend.git
+```
 1.  **Navigate to the backend directory:**
     ```bash
-    cd backend/
+    cd n8n-MarketSync-backend
     ```
 2.  **Install dependencies:**
     ```bash
@@ -62,6 +82,10 @@ TODO 30
     The backend server will run on `http://localhost:3001`.
 
 ### Frontend Setup
+
+```bash
+https://github.com/warathepj/c6f6700c-0ed6-4735-8827-b36faac76785.git
+```
 
 1.  **Navigate to the frontend directory:**
     ```bash
@@ -83,14 +107,14 @@ TODO 30
 ### n8n Webhook Integration
 This project relies on an n8n instance to receive booking data.
 The webhook URL configured in `backend/server.js` is:
-`http://localhost:5678/webhook-test/3a0b65c7-08e6-411c-8d73-7335fad620b2`
+`http://localhost:5678/webhook/your-webhook-id`
 
 Ensure your n8n workflow is set up to listen for `POST` requests at this URL. It will receive:
 *   New booking submissions from the `/submit-booking` endpoint.
 *   Daily scheduled booking data from the cron job.
 
 ## API Endpoints
-
+TODO 2
 ### `POST /submit-booking`
 *   **Description:** Submits new booth booking information to the backend.
 *   **Request Body (JSON):**
@@ -112,7 +136,7 @@ Ensure your n8n workflow is set up to listen for `POST` requests at this URL. It
 
 ## Scheduled Tasks
 
-A cron job is configured in `backend/server.js` to run daily at **16:05 (4:05 PM) Asia/Bangkok timezone**.
+A cron job is configured in `backend/server.js` to run daily at **16:00 (4:00 PM) Asia/Bangkok timezone**.
 This job performs the following actions:
 1.  Fetches all bookings from `db.json` that have a `timestamp` matching the current UTC date.
 2.  Creates a modified copy of these bookings, incrementing `eventDetails.startDate` and `eventDetails.endDate` by one day.
@@ -123,7 +147,7 @@ This job performs the following actions:
 All booking data is stored locally in `db.json` in the `backend/` directory. This file is automatically created and updated by the backend server.
 
 ---
-
+TODO 2
 # MarketSync n8n Workflow
 
 MarketSync is an n8n workflow designed to automate notifications for market stall bookings and payments via Telegram. This workflow streamlines communication with vendors, providing timely updates on their bookings and payment confirmations.
@@ -143,7 +167,7 @@ MarketSync is an n8n workflow designed to automate notifications for market stal
 
 The MarketSync workflow is triggered by an **HTTP Webhook**. Here's a step-by-step breakdown:
 
-1.  **Webhook Trigger:** The workflow starts when an HTTP POST request is received at the specified webhook URL (`3a0b65c7-08e6-411c-8d73-7335fad620b2`). This webhook is expected to receive JSON data containing booking or payment information.
+1.  **Webhook Trigger:** The workflow starts when an HTTP POST request is received at the specified webhook URL (`your_webhook_url`). This webhook is expected to receive JSON data containing booking or payment information.
 2.  **Conditional Check (If Node):**
     * The "If" node checks for the existence of `{{ $json.body.source }}` in the incoming data.
     * If `source` exists (indicating a payment confirmation), the workflow proceeds to the "Telegram1" node.
@@ -173,7 +197,7 @@ The MarketSync workflow is triggered by an **HTTP Webhook**. Here's a step-by-st
 To use this n8n workflow, you will need:
 
 1.  **n8n Instance:** A running instance of n8n.
-2.  **Telegram Bot Token:** A Telegram bot set up and its API token configured as a credential in n8n (named "Telegram account" with ID `Cv84ST2V0pld3mSF`).
+2.  **Telegram Bot Token:** A Telegram bot set up and its API token configured as a credential in n8n (named "Telegram account").
 3.  **Webhook Integration:** An external system that sends JSON data to the n8n webhook URL.
 
 ### Webhook Payload Examples:
