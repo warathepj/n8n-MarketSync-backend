@@ -72,7 +72,7 @@ async function getTodayBookings() {
 }
 
 // Schedule the task to run every day at 10:40 AM
-cron.schedule('23 14 * * *', () => {
+cron.schedule('05 16 * * *', () => {
   console.log('Running scheduled task to fetch today\'s bookings...');
   getTodayBookings();
 }, {
@@ -122,6 +122,3 @@ app.listen(port, () => {
   console.log(`Backend server listening at http://localhost:${port}`);
 });
 
-// TODO add 1 day from server code (test), telegram node 
-// expression not dynamic, test after remove send today's 
-// bookings when server starts.
